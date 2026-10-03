@@ -312,8 +312,15 @@ function drawChart(c) {
   const inWin = bps.filter((p) => secs(p.t) >= secs(w.alert_start) && secs(p.t) <= secs(w.alert_end));
   const ext = (inWin.length ? inWin : bps).reduce((a, b) => Math.abs(b.v) > Math.abs(a.v) ? b : a, (inWin[0] || bps[0]));
   node.append(svg('circle', { cx: X(ext.t), cy: YA(ext.v), r: 4.5, class: 'dot' }));
-  const lx = X(ext.t) > 760 ? X(ext.t) - 170 : X(ext.t) + 10;
-  node.append(svg('text', { x: lx, y: YA(ext.v) - 10, class: 'note' },
+  /* Clear the label of the curve along its whole width, not just at the marked
+     point - the deepest part of the dip is often a little to one side. */
+  const lx = X(ext.t) > 760 ? X(ext.t) - 172 : X(ext.t) + 12;
+  const under = bps.filter((p) => X(p.t) >= lx - 8 && X(p.t) <= lx + 178).map((p) => YA(p.v));
+  under.push(YA(ext.v));
+  const below = ext.v < (lo + hi) / 2;
+  const ly = Math.max(PLOT.aTop + 9, Math.min(PLOT.aBot + 24,
+    below ? Math.max(...under) + 17 : Math.min(...under) - 11));
+  node.append(svg('text', { x: lx, y: ly, class: 'note' },
     `${ext.v > 0 ? '+' : ''}${ext.v.toFixed(1)} bps in window at ${ext.t.slice(0, 8)}`));
 
   /* ---- lane B: order flow, BUY above the axis, SELL below ---- */
@@ -331,12 +338,36 @@ function drawChart(c) {
 
   // NEW and FILL are drawn to scale; a CANCEL is a stub at the axis, so removing
   // liquidity never looks like adding it.
-  ev.forEach((e) => {
-    const up = e.side === 'BUY', x = X(e.t) - bw / 2;
-    const cls = (up ? 'buy' : 'sell') + ' ' + e.event.toLowerCase();
-    const h = e.event === 'CANCEL' ? 7 : H(e.qty);
-    const y = e.event === 'CANCEL' ? (up ? PLOT.zero - h - 3 : PLOT.zero + 3) : (up ? PLOT.zero - h : PLOT.zero);
-    node.append(svg('rect', { x, y, width: bw, height: h, rx: 1.5, class: 'bar ' + cls }));
+  const GAP = 1.5;
+  const marks = ev.map((e) => ({ e, up: e.side === 'BUY', x: X(e.t),
+    h: e.event === 'CANCEL' ? 7 : H(e.qty) }));
+
+  /* Events seconds apart land on the same pixel, so marks are laid out per side:
+     each one keeps its place in time but is pushed right until it clears the
+     previous mark. Bars touch, never overlap - an overlap would read as one order. */
+  ['BUY', 'SELL'].forEach((side) => {
+    const g = marks.filter((m) => m.e.side === side).sort((a, b) => a.x - b.x);
+    if (!g.length) return;
+    const room = PLOT.x1 - PLOT.x0;
+    const w = Math.max(1.5, Math.min(bw, room / g.length - GAP));
+    let right = -Infinity;
+    g.forEach((m) => {
+      m.w = w;
+      m.left = Math.max(m.x - w / 2, right + GAP);
+      right = m.left + w;
+    });
+    const over = right - PLOT.x1;                       // a dense cluster can run off the end
+    if (over > 0) {
+      const span = Math.max(1, right - g[0].left);
+      g.forEach((m) => { m.left -= over * (m.left - g[0].left + m.w) / span; });
+    }
+  });
+
+  marks.forEach((m) => {
+    const y = m.e.event === 'CANCEL' ? (m.up ? PLOT.zero - m.h - 3 : PLOT.zero + 3)
+                                     : (m.up ? PLOT.zero - m.h : PLOT.zero);
+    node.append(svg('rect', { x: m.left, y, width: m.w, height: m.h, rx: Math.min(1.5, m.w / 3),
+      class: 'bar ' + (m.up ? 'buy' : 'sell') + ' ' + m.e.event.toLowerCase() }));
   });
 
   // aggregate call-outs, placed at the centre of mass of each group

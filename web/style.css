@@ -4,7 +4,7 @@
 :root{
   --base:#0E0E0E; --panel:#151515; --hero:#1A1A1A;
   --blu:#2100FF; --blu-lt:#7B7BFF;
-  --buy:#0FA896; --sell:#E2680E;
+  --buy:#16C784; --sell:#EA3943;
   --w:#FFFFFF; --w70:rgba(255,255,255,.70); --w45:rgba(255,255,255,.45); --w28:rgba(255,255,255,.28);
   --hair:rgba(255,255,255,.08); --hair2:rgba(255,255,255,.055);
   --sans:"Poppins","Mark Pro",system-ui,"Segoe UI",sans-serif;
@@ -27,8 +27,8 @@ button{font-family:inherit;cursor:pointer}
 .tmeta s{text-decoration:none;color:var(--w28);letter-spacing:.1em;font-size:9px}
 .pill{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;
   border:1px solid var(--hair);border-radius:100px;padding:6px 14px;color:var(--w45);white-space:nowrap}
-.pill.live{border-color:rgba(15,168,150,.50);color:var(--buy)}
-.pill.live .d{width:6px;height:6px;border-radius:50%;background:var(--buy);box-shadow:0 0 0 3px rgba(15,168,150,.20)}
+.pill.live{border-color:rgba(22,199,132,.50);color:var(--buy)}
+.pill.live .d{width:6px;height:6px;border-radius:50%;background:var(--buy);box-shadow:0 0 0 3px rgba(22,199,132,.20)}
 .pill.off{border-color:var(--hair);color:var(--w28)}
 .pill.off .d{background:var(--w28);box-shadow:none}
 
@@ -79,8 +79,8 @@ button{font-family:inherit;cursor:pointer}
   text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mrow .v{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.03em;white-space:nowrap}
 .mrow .v u{text-decoration:none;font-size:9.5px;color:var(--w45);margin-left:4px}
-.mrow.buy{border-left-color:var(--buy);background:rgba(15,168,150,.12)} .mrow.buy .v{color:var(--buy)}
-.mrow.sell{border-left-color:var(--sell);background:rgba(226,104,14,.12)} .mrow.sell .v{color:var(--sell)}
+.mrow.buy{border-left-color:var(--buy);background:rgba(22,199,132,.12)} .mrow.buy .v{color:var(--buy)}
+.mrow.sell{border-left-color:var(--sell);background:rgba(234,57,67,.12)} .mrow.sell .v{color:var(--sell)}
 .mrow.dev{border-left-color:var(--blu-lt);background:rgba(123,123,255,.12)} .mrow.dev .v{color:var(--blu-lt)}
 .tagsq{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 7px;border-radius:5px;color:#0E0E0E}
 .tagsq.b{background:var(--buy)} .tagsq.s{background:var(--sell)} .tagsq.d{background:var(--blu-lt)}
@@ -103,10 +103,12 @@ button{font-family:inherit;cursor:pointer}
 .chart-h{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 18px;
   border-bottom:1px solid var(--hair2)}
 .chart-h .t{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.16em;color:var(--w45)}
-.leg{display:flex;gap:14px;font-family:var(--mono);font-size:9.5px;color:var(--w70);align-items:center;flex-wrap:wrap}
+.leg{display:flex;gap:13px;font-family:var(--mono);font-size:9.5px;color:var(--w70);align-items:center;flex-wrap:wrap}
 .leg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .leg .bu{background:var(--buy)} .leg .se{background:var(--sell)}
-.leg .ho{border:1.5px solid var(--buy)} .leg .ca{border:1.5px dashed var(--w45)}
+/* hue = direction, opacity = order state: two channels, each shown once */
+.leg .s1{background:#fff} .leg .s2{background:#fff;opacity:.6} .leg .s3{background:#fff;opacity:.3}
+.leg .sep{width:1px;height:11px;background:var(--hair);display:inline-block}
 .leg .pr{width:15px;height:0;border-top:2px solid var(--w);border-radius:0;vertical-align:3px}
 .chart-body{position:relative}
 #chart{display:block;width:100%;height:auto}
@@ -193,7 +195,7 @@ table.evt td.r{text-align:right}
 .acc[open] .tt b{color:#fff;font-weight:500}
 .acc .fl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;padding:2px 6px;border-radius:100px;
   border:1px solid var(--hair);color:var(--w28);white-space:nowrap}
-.acc .fl.contradicts{border-color:rgba(226,104,14,.55);color:var(--sell)}
+.acc .fl.contradicts{border-color:rgba(234,57,67,.55);color:var(--sell)}
 .acc .fl.supports{border-color:rgba(123,123,255,.45);color:var(--blu-lt)}
 .acc .bd{padding:0 0 11px 17px}
 .acc .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-family:var(--mono);font-size:9.5px}
@@ -272,11 +274,12 @@ table.evt td.r{text-align:right}
 #chart .price{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 #chart .dot{fill:var(--base);stroke:#fff;stroke-width:2.2}
 #chart .cross{stroke:var(--blu-lt);stroke-width:1;stroke-dasharray:3 3}
-#chart .bar.buy{fill:var(--buy);stroke:var(--buy)}
-#chart .bar.sell{fill:var(--sell);stroke:var(--sell)}
-#chart .bar.new{fill:transparent;stroke-width:1.4}
-#chart .bar.cancel{fill:transparent;stroke:var(--w45);stroke-width:1.1;stroke-dasharray:2.5 2.5}
-#chart .bar.fill{stroke:none}
+#chart .bar{stroke:none}
+#chart .bar.buy{fill:var(--buy)}
+#chart .bar.sell{fill:var(--sell)}
+#chart .bar.fill{fill-opacity:1}        /* executed - the loudest mark */
+#chart .bar.new{fill-opacity:.6}        /* resting  - posted, not yet done */
+#chart .bar.cancel{fill-opacity:.3}     /* cancelled - a stub at the axis */
 
 /* the hidden attribute must beat the layout displays above */
 [hidden]{display:none !important}
