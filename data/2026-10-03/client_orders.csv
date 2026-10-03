@@ -1,0 +1,8 @@
+client_order_id,client,account,symbol,side,qty,handling_trader,instruction,received_at,first_fill_at,last_fill_at
+CO-1001,Kite Ridge Partners,C-KITERIDGE,SOL-PERP,SELL,800.0,T04,Work over 10 min,2026-10-03T14:05:00.417Z,2026-10-03T14:06:00.559Z,2026-10-03T14:14:57.354Z
+CO-1002,Calder Asset Management,C-CALDER-I,BTC-PERP,SELL,6.0,T05,Work over 10 min,2026-10-03T15:00:00.782Z,2026-10-03T15:01:00.765Z,2026-10-03T15:10:58.768Z
+CO-1003,Calder Asset Management,C-CALDER-I,ETH-PERP,BUY,300.0,T04,"Work over ~30 min, limit +40bp vs arrival",2026-10-03T16:09:00.119Z,2026-10-03T16:10:03.691Z,2026-10-03T16:38:31.029Z
+CO-1004,Westbrook Pension Fund,C-WESTBROOK,BTC-PERP,BUY,40.0,T05,Work by 18:15,2026-10-03T17:30:00.052Z,2026-10-03T17:32:03.335Z,2026-10-03T18:08:09.930Z
+CO-1009,Calder Asset Management,C-CALDER-II,BTC-PERP,BUY,120.0,T05,Cross with CO-1008 at mid per signed client instruction CI-2291 (fund rebalance),2026-10-03T19:01:31.449Z,2026-10-03T19:10:00.124Z,2026-10-03T19:12:43.098Z
+CO-1008,Calder Asset Management,C-CALDER-I,BTC-PERP,SELL,120.0,T05,Cross with CO-1009 at mid per signed client instruction CI-2291 (fund rebalance),2026-10-03T19:01:31.449Z,2026-10-03T19:10:00.124Z,2026-10-03T19:12:43.098Z
+CO-1005,Westbrook Pension Fund,C-WESTBROOK,SOL-PERP,BUY,1500.0,T04,Work over 15 min,2026-10-03T19:30:00.749Z,2026-10-03T19:31:04.582Z,2026-10-03T19:45:01.055Z

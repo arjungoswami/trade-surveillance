@@ -1,0 +1,2 @@
+parent_id,trader_id,account,symbol,side,total_qty,strategy,approved_by,purpose,created_at,start_at,end_at
+ALGO-0917,T05,FAC-LIND,BTC-PERP,BUY,12.0,TWAP,Risk (R. Adeyemi),Weekend risk hedge of facilitation book,2026-10-03T13:52:16.891Z,2026-10-03T14:30:48.006Z,2026-10-03T18:28:00.000Z

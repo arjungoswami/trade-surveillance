@@ -1,0 +1,4 @@
+date,requested_at,employee_id,account,symbol,side,qty,status,approver
+2026-09-22,13:05,T04,PA-BRANDT,BTC-PERP,BUY,0.2,APPROVED,Compliance (K. Osei)
+2026-09-25,15:40,T05,PA-LIND,ETH-PERP,SELL,3.0,APPROVED,Compliance (K. Osei)
+2026-10-03,13:21,T05,PA-LIND,SOL-PERP,BUY,10.0,APPROVED,Compliance (K. Osei)

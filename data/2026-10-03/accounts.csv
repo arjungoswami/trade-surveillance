@@ -1,0 +1,17 @@
+account_id,type,beneficial_owner,controlled_by,notes
+P-KESSLER,prop,Harborline Capital,Dan Kessler,Delta One prop book
+MM-ORTIZ,market_making,Harborline Capital,Maya Ortiz,Options desk MM/hedging book
+LP-NOVA,token_liquidity,Harborline Capital,Tom Becker,Book for the Nova Foundation market-making agreement (NOVA-USDT on XCH)
+FAC-BRANDT,facilitation,Harborline Capital,Leo Brandt,Execution desk facilitation book
+PA-BRANDT,employee_personal,Leo Brandt,Leo Brandt,Employee personal account held with the firm. Every trade requires compliance pre-clearance.
+FAC-LIND,facilitation,Harborline Capital,Sara Lind,Execution desk facilitation book
+PA-LIND,employee_personal,Sara Lind,Sara Lind,Employee personal account held with the firm. Every trade requires compliance pre-clearance.
+MM-HADDAD,market_making,Harborline Capital,Omar Haddad,Options desk MM book
+P-LIU,prop,Harborline Capital,Grace Liu,Delta One prop book
+P-OKAFOR,prop,Harborline Capital,Ben Okafor,Delta One prop book
+MM-ROSSI,market_making,Harborline Capital,Nina Rossi,Options desk MM book
+AFF-0731,client_dma,Becker Family LLC,Tom Becker,"Direct-market-access client account opened 2026-06 by the onboarding team. KYC lists Becker Family LLC, controlling person Tom Becker. NOT listed on T. Becker's personal-account declaration to Compliance."
+C-CALDER-I,client,Calder Global Macro Fund I,Calder Asset Management,Institutional client fund
+C-CALDER-II,client,Calder Multi-Strategy Fund II,Calder Asset Management,Institutional client fund
+C-WESTBROOK,client,Westbrook Pension Fund,Westbrook Pension Fund,Institutional client
+C-KITERIDGE,client,Kite Ridge Partners,Kite Ridge Partners,Institutional client
