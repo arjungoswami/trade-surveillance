@@ -1,0 +1,292 @@
+/* Trade surveillance dashboard - dark investigation workspace.
+   Three structural colours (ink, surface, brand blue) plus BUY green / SELL red,
+   which carry direction and are always paired with a label or position. */
+:root{
+  --base:#0E0E0E; --panel:#151515; --hero:#1A1A1A;
+  --blu:#2100FF; --blu-lt:#7B7BFF;
+  --buy:#0FA896; --sell:#E2680E;
+  --w:#FFFFFF; --w70:rgba(255,255,255,.70); --w45:rgba(255,255,255,.45); --w28:rgba(255,255,255,.28);
+  --hair:rgba(255,255,255,.08); --hair2:rgba(255,255,255,.055);
+  --sans:"Poppins","Mark Pro",system-ui,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--base);color:var(--w);font-family:var(--sans);font-size:13px;line-height:1.5;
+  letter-spacing:-.012em;-webkit-font-smoothing:antialiased}
+body{background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px}
+button{font-family:inherit;cursor:pointer}
+.page{min-height:100vh;display:flex;flex-direction:column}
+.grow{flex:1}
+.t-eyebrow{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--w28)}
+
+/* ---------------- top ---------------- */
+.top{flex:0 0 54px;display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:1px solid var(--hair)}
+.wm{font-size:15px;font-weight:500;letter-spacing:-.02em;white-space:nowrap}
+.vr{width:1px;height:18px;background:var(--hair)}
+.tmeta{display:flex;gap:22px;font-family:var(--mono);font-size:10.5px;color:var(--w70)}
+.tmeta s{text-decoration:none;color:var(--w28);letter-spacing:.1em;font-size:9px}
+.pill{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  border:1px solid var(--hair);border-radius:100px;padding:6px 14px;color:var(--w45);white-space:nowrap}
+.pill.live{border-color:rgba(15,168,150,.50);color:var(--buy)}
+.pill.live .d{width:6px;height:6px;border-radius:50%;background:var(--buy);box-shadow:0 0 0 3px rgba(15,168,150,.20)}
+.pill.off{border-color:var(--hair);color:var(--w28)}
+.pill.off .d{background:var(--w28);box-shadow:none}
+
+/* ---------------- body ---------------- */
+.body{flex:1;display:grid;grid-template-columns:348px minmax(0,1fr) 300px;min-height:0}
+.lrail{padding:20px 22px;display:flex;flex-direction:column;gap:13px;border-right:1px solid var(--hair)}
+.mid{padding:20px 24px;display:flex;flex-direction:column;min-width:0}
+.rrail{padding:20px;display:flex;flex-direction:column;gap:20px;border-left:1px solid var(--hair);overflow:auto}
+
+/* -------- left: identity -------- */
+.cid .idrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cid .idrow .n{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--blu-lt);letter-spacing:.06em}
+.cid .idrow .st{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;border:1px solid var(--hair);
+  border-radius:100px;padding:2px 8px;color:var(--w45);text-transform:uppercase}
+.cid h1{font-size:32px;font-weight:500;letter-spacing:-.045em;line-height:1.04;margin-top:8px}
+.cid h1 em{font-style:normal;color:var(--w28)}
+.cid .meta{margin-top:12px;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;
+  font-family:var(--mono);font-size:10.5px;color:var(--w70)}
+.cid .meta s{text-decoration:none;color:var(--w28);letter-spacing:.11em;font-size:9px;padding-top:2px}
+
+/* -------- left: score block -------- */
+.riskblock{background:var(--blu);border-radius:18px;padding:15px 18px 13px;color:#fff;transition:background .2s}
+.riskblock.closed{background:#1d1d1d;border:1px solid var(--hair)}
+.riskblock.escalated{background:var(--sell)}
+.riskblock .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.62)}
+.riskblock .big{display:flex;align-items:baseline;gap:10px;margin-top:2px}
+.riskblock .big b{font-size:54px;font-weight:500;letter-spacing:-.055em;line-height:.92}
+.riskblock .big u{text-decoration:none;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  border:1px solid rgba(255,255,255,.4);border-radius:100px;padding:3px 10px}
+.riskblock .trk{height:4px;border-radius:4px;background:rgba(255,255,255,.26);margin:11px 0 10px;position:relative}
+.riskblock .trk i{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff;border-radius:4px;transition:width .35s}
+.riskblock .rec{display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.25);padding-top:12px}
+.riskblock .rec span{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:rgba(255,255,255,.62)}
+.riskblock .rec strong{font-size:21px;font-weight:500;letter-spacing:-.035em}
+
+/* -------- left: summary + metrics -------- */
+.sum p{font-size:12.5px;line-height:1.6;color:var(--w70);margin-top:9px}
+.sum p b{color:var(--w);font-weight:500}
+.sum p .g{color:var(--buy);font-weight:500}
+.sum p .r{color:var(--sell);font-weight:500}
+.sum p .u{color:var(--w45);border-bottom:1px solid var(--hair)}
+.mrow{display:flex;align-items:center;gap:11px;padding:9px 13px;border-radius:12px;margin-bottom:6px;
+  background:var(--panel);border-left:3px solid transparent}
+.mrow .k{flex:1;min-width:0}
+.mrow .k .t{font-size:12px;font-weight:500;color:var(--w)}
+.mrow .k .s{font-family:var(--mono);font-size:9px;letter-spacing:.09em;color:var(--w28);margin-top:1px;
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .v{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.03em;white-space:nowrap}
+.mrow .v u{text-decoration:none;font-size:9.5px;color:var(--w45);margin-left:4px}
+.mrow.buy{border-left-color:var(--buy);background:rgba(15,168,150,.12)} .mrow.buy .v{color:var(--buy)}
+.mrow.sell{border-left-color:var(--sell);background:rgba(226,104,14,.12)} .mrow.sell .v{color:var(--sell)}
+.mrow.dev{border-left-color:var(--blu-lt);background:rgba(123,123,255,.12)} .mrow.dev .v{color:var(--blu-lt)}
+.tagsq{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 7px;border-radius:5px;color:#0E0E0E}
+.tagsq.b{background:var(--buy)} .tagsq.s{background:var(--sell)} .tagsq.d{background:var(--blu-lt)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:9px;letter-spacing:.07em;border:1px solid rgba(123,123,255,.4);
+  color:var(--blu-lt);padding:4px 9px;border-radius:100px}
+.chip.off{border-color:var(--hair);color:var(--w28)}
+
+/* -------- centre -------- */
+.shead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.shead .num{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;color:#0E0E0E;
+  background:var(--w);border-radius:5px;padding:3px 7px}
+.shead h2{font-size:21px;font-weight:500;letter-spacing:-.035em}
+.shead .aside{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--w28);letter-spacing:.07em;
+  text-align:right}
+.shead.sub .num{background:var(--w28)}
+.shead.sub h2{font-size:15px;color:var(--w70)}
+
+.chart{background:var(--hero);border:1px solid var(--hair);border-radius:20px;overflow:hidden}
+.chart-h{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 18px;
+  border-bottom:1px solid var(--hair2)}
+.chart-h .t{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.16em;color:var(--w45)}
+.leg{display:flex;gap:14px;font-family:var(--mono);font-size:9.5px;color:var(--w70);align-items:center;flex-wrap:wrap}
+.leg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.leg .bu{background:var(--buy)} .leg .se{background:var(--sell)}
+.leg .ho{border:1.5px solid var(--buy)} .leg .ca{border:1.5px dashed var(--w45)}
+.leg .pr{width:15px;height:0;border-top:2px solid var(--w);border-radius:0;vertical-align:3px}
+.chart-body{position:relative}
+#chart{display:block;width:100%;height:auto}
+.tip{position:absolute;pointer-events:none;background:#0A0A0A;border:1px solid var(--hair);border-radius:10px;
+  padding:9px 11px;font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--w70);
+  box-shadow:0 10px 30px rgba(0,0,0,.6);z-index:5;white-space:nowrap}
+.tip b{color:#fff;font-weight:500}
+.tip .g{color:var(--buy)} .tip .r{color:var(--sell)}
+
+.fold{margin-top:10px;border:1px solid var(--hair);border-radius:12px}
+.fold summary{display:flex;align-items:center;gap:12px;padding:10px 16px;list-style:none;cursor:pointer}
+.fold summary::-webkit-details-marker{display:none}
+.fold .cv{font-family:var(--mono);font-size:12px;color:var(--w45);width:9px}
+.fold .cv:before{content:"+"}
+.fold[open] .cv:before{content:"\2212"}
+.fold[open] .expand{opacity:0}
+.fold .t{font-size:12.5px;font-weight:500;color:var(--w70)}
+.fold .s{font-family:var(--mono);font-size:9.5px;color:var(--w28);letter-spacing:.05em}
+.foldbody{max-height:230px;overflow:auto;border-top:1px solid var(--hair2)}
+table.evt{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10.5px}
+table.evt th{position:sticky;top:0;background:var(--base);text-align:left;font-size:8.5px;font-weight:500;
+  letter-spacing:.14em;color:var(--w28);padding:8px 14px;border-bottom:1px solid var(--hair2)}
+table.evt td{padding:5px 14px;color:var(--w45);border-bottom:1px solid rgba(255,255,255,.03);white-space:nowrap}
+table.evt td.b{color:var(--buy)} table.evt td.s{color:var(--sell)} table.evt td.w{color:var(--w70)}
+table.evt td.r{text-align:right}
+
+.pipe{background:var(--panel);border:1px solid var(--hair);border-radius:16px;padding:15px 20px 17px}
+.pipe-h{display:flex;align-items:center;gap:12px;margin-bottom:17px}
+.pipe-h .t{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--w45)}
+.pipe-h .st{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;color:#fff;background:var(--blu);
+  border-radius:100px;padding:4px 12px}
+.pipe-h .el{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--w45)}
+.mini{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--w70);background:transparent;
+  border:1px solid var(--hair);border-radius:100px;padding:5px 12px}
+.mini:hover:not(:disabled){border-color:var(--blu-lt);color:#fff}
+.mini:disabled{opacity:.35;cursor:not-allowed}
+.steps{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;position:relative;gap:4px}
+.track{position:absolute;left:0;right:0;top:7px;height:2px;background:rgba(255,255,255,.10)}
+.track i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--blu-lt);transition:width .3s}
+.step{position:relative;min-width:0}
+.node{width:16px;height:16px;border-radius:50%;background:var(--panel);border:2px solid rgba(255,255,255,.2);
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+.node.done{background:var(--blu-lt);border-color:var(--blu-lt)}
+.node.done:after{content:"";width:4px;height:8px;border:solid #0E0E0E;border-width:0 2px 2px 0;
+  transform:rotate(45deg) translate(-1px,-1px)}
+.node.run{background:var(--blu);border-color:var(--blu);animation:pulse 1.4s ease-out infinite}
+.node.run:after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(33,0,255,.55)}70%{box-shadow:0 0 0 9px rgba(33,0,255,0)}100%{box-shadow:0 0 0 0 rgba(33,0,255,0)}}
+.step .nm{font-family:var(--mono);font-size:10px;font-weight:500;margin-top:11px;color:var(--w70);
+  letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px}
+.step .rt{font-family:var(--mono);font-size:9.5px;color:var(--w28);margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:6px}
+.step.cur .nm{color:#fff} .step.cur .rt{color:var(--blu-lt)}
+.pipe-f{display:flex;justify-content:space-between;gap:16px;margin-top:15px;padding-top:12px;
+  border-top:1px solid var(--hair2);font-family:var(--mono);font-size:9.5px;color:var(--w28);letter-spacing:.07em}
+
+/* -------- right rail -------- */
+.rsec .rh{display:flex;align-items:center;margin-bottom:9px}
+.rsec .rh .c{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--w28)}
+.qfilter{display:flex;gap:4px;margin-bottom:8px}
+.qfilter button{flex:1;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--hair);border-radius:100px;padding:5px 2px;color:var(--w28)}
+.qfilter button.on{border-color:var(--blu-lt);color:#fff}
+.queue{max-height:232px;overflow:auto;margin:0 -6px;padding:0 6px}
+.q{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;cursor:pointer}
+.q:hover{background:rgba(255,255,255,.04)}
+.q .id{font-family:var(--mono);font-size:10.5px;color:var(--w70);width:50px}
+.q .nmm{flex:1;font-size:11.5px;color:var(--w45);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.q .sc{font-family:var(--mono);font-size:10.5px;color:var(--w45);width:22px;text-align:right}
+.q .dt{width:5px;height:5px;border-radius:50%;background:var(--blu-lt);flex:0 0 5px}
+.q .dt.escalated{background:var(--sell)} .q .dt.closed{background:transparent;border:1px solid var(--w28)}
+.q.sel{background:rgba(123,123,255,.13);box-shadow:inset 2px 0 0 var(--blu-lt)}
+.q.sel .id,.q.sel .sc{color:#fff} .q.sel .nmm{color:var(--w70)}
+
+.acc{border-bottom:1px solid var(--hair2)}
+.acc:last-child{border-bottom:0}
+.acc summary{display:flex;gap:9px;align-items:flex-start;padding:9px 0;list-style:none;cursor:pointer}
+.acc summary::-webkit-details-marker{display:none}
+.acc .cv{font-family:var(--mono);font-size:11px;color:var(--w28);width:8px;line-height:1.4}
+.acc .cv:before{content:"+"}
+.acc[open] .cv:before{content:"\2212"}
+.acc .tt{flex:1;display:flex;align-items:center;gap:7px;min-width:0}
+.acc .tt b{font-size:11.5px;font-weight:400;color:var(--w70);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc[open] .tt b{color:#fff;font-weight:500}
+.acc .fl{font-family:var(--mono);font-size:8px;letter-spacing:.1em;padding:2px 6px;border-radius:100px;
+  border:1px solid var(--hair);color:var(--w28);white-space:nowrap}
+.acc .fl.contradicts{border-color:rgba(226,104,14,.55);color:var(--sell)}
+.acc .fl.supports{border-color:rgba(123,123,255,.45);color:var(--blu-lt)}
+.acc .bd{padding:0 0 11px 17px}
+.acc .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-family:var(--mono);font-size:9.5px}
+.acc .kv s{text-decoration:none;color:var(--w28)}
+.acc .kv b{font-weight:400;color:var(--w70)}
+.acc .kv .g{color:var(--buy)} .acc .kv .r{color:var(--sell)}
+.acc .dd{font-size:10.5px;color:var(--w45);line-height:1.5}
+.msg{padding:8px 0;border-bottom:1px solid var(--hair2)}
+.msg:last-child{border-bottom:0}
+.msg .mh{display:flex;gap:7px;font-family:var(--mono);font-size:9px;color:var(--w28);letter-spacing:.05em}
+.msg .mb{font-size:11px;color:var(--w70);margin-top:3px;line-height:1.45}
+.msg.flag{border-left:2px solid var(--sell);padding-left:9px}
+.untrusted{font-family:var(--mono);font-size:8.5px;color:var(--w28);letter-spacing:.08em;margin-top:8px;
+  border-top:1px solid var(--hair2);padding-top:8px;line-height:1.5}
+
+/* -------- footer -------- */
+.foot{flex:0 0 112px;background:var(--panel);border-top:1px solid var(--hair);display:flex;align-items:center;
+  gap:28px;padding:0 24px}
+.foot .r1{font-size:20px;font-weight:500;letter-spacing:-.035em;margin-top:5px;display:flex;align-items:center;gap:11px}
+.foot .r1 em{font-style:normal;color:var(--blu-lt);font-weight:600}
+.foot .r1 em.sell{color:var(--sell)} .foot .r1 em.buy{color:var(--buy)}
+.foot .r1 span{font-family:var(--mono);font-size:10px;color:var(--w28);letter-spacing:.08em}
+.foot .r2{font-size:12px;color:var(--w45);margin-top:3px;max-width:820px}
+.foot .acts{margin-left:auto;display:flex;align-items:center;gap:11px}
+.btn{font-size:13.5px;font-weight:500;letter-spacing:-.015em;padding:12px 22px;border-radius:100px;
+  border:1px solid var(--hair);background:transparent;color:var(--w45);white-space:nowrap}
+.btn:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.btn.sec{border-color:rgba(255,255,255,.3);color:#fff}
+.btn.pri{background:var(--blu);border-color:var(--blu);color:#fff;padding:13px 28px;font-size:14px}
+.btn.pri:hover{filter:brightness(1.15)}
+.btn u{text-decoration:none;font-family:var(--mono);font-size:10px;opacity:.6;margin-left:10px}
+
+/* -------- drawer + toast -------- */
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:20}
+.dw{width:520px;background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:20px 22px}
+.dw-h{display:flex;align-items:center;font-size:17px;font-weight:500;letter-spacing:-.03em;margin-bottom:16px}
+.dw-h .x{margin-left:auto;background:transparent;border:0;color:var(--w45);font-size:22px;line-height:1}
+.dw-l{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--w28);margin:14px 0 6px}
+.dw-l:first-of-type{margin-top:0}
+.dw output{color:var(--blu-lt)}
+#dw-susp{width:100%;accent-color:var(--blu)}
+.dw textarea{width:100%;background:#0E0E0E;border:1px solid var(--hair);border-radius:10px;color:#fff;
+  font-family:var(--sans);font-size:12.5px;padding:10px 12px;resize:vertical}
+.dw textarea:focus{outline:none;border-color:var(--blu-lt)}
+.dw-f{display:flex;align-items:center;gap:16px;margin-top:16px}
+.dw-note{font-family:var(--mono);font-size:9px;color:var(--w28);letter-spacing:.06em;flex:1;line-height:1.5}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;color:#0E0E0E;
+  font-size:12.5px;font-weight:500;padding:11px 20px;border-radius:100px;z-index:30;
+  box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.toast.err{background:var(--sell);color:#fff}
+
+@media (max-width:1500px){
+  .body{grid-template-columns:320px minmax(0,1fr) 280px}
+  .cid h1{font-size:28px}
+}
+
+/* -------- chart marks --------
+   Direction is carried by position (BUY above the axis, SELL below) as well as
+   hue, and order state by fill (solid = executed, hollow = resting, dashed =
+   cancelled), so neither colour alone has to do the work. */
+#chart text{font-family:var(--mono)}
+#chart .lane{font-size:9px;letter-spacing:.16em;fill:var(--w28)}
+#chart .tick{font-size:9px;fill:var(--w28)}
+#chart .tick.w{fill:var(--w45)}
+#chart .note{font-size:10.5px;font-weight:500;fill:#fff}
+#chart .callout{font-size:10.5px;font-weight:500;fill:var(--w70);letter-spacing:.02em}
+#chart .callout.dim{fill:var(--w28)}
+#chart .sidelab{font-size:9px;font-weight:700}
+#chart .sidelab.buy{fill:var(--buy)} #chart .sidelab.sell{fill:var(--sell)}
+#chart .fbuy{fill:var(--buy)} #chart .fsell{fill:var(--sell)}
+#chart .grid{stroke:rgba(255,255,255,.07);stroke-dasharray:3 4}
+#chart .axis{stroke:rgba(255,255,255,.14)}
+#chart .zero{stroke:rgba(255,255,255,.45)}
+#chart .guide{stroke:rgba(255,255,255,.14);stroke-dasharray:2 3}
+#chart .band{fill:rgba(255,255,255,.035)}
+#chart .price{fill:none;stroke:#fff;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+#chart .dot{fill:var(--base);stroke:#fff;stroke-width:2.2}
+#chart .cross{stroke:var(--blu-lt);stroke-width:1;stroke-dasharray:3 3}
+#chart .bar.buy{fill:var(--buy);stroke:var(--buy)}
+#chart .bar.sell{fill:var(--sell);stroke:var(--sell)}
+#chart .bar.new{fill:transparent;stroke-width:1.4}
+#chart .bar.cancel{fill:transparent;stroke:var(--w45);stroke-width:1.1;stroke-dasharray:2.5 2.5}
+#chart .bar.fill{stroke:none}
+
+/* the hidden attribute must beat the layout displays above */
+[hidden]{display:none !important}
+
+/* One screen: the chart and the decision bar stay put, the rails scroll. */
+.page{height:100vh;overflow:hidden}
+.body{min-height:0}
+.lrail,.mid{overflow:auto}
+.lrail::-webkit-scrollbar,.mid::-webkit-scrollbar,.rrail::-webkit-scrollbar,
+.queue::-webkit-scrollbar,.foldbody::-webkit-scrollbar{width:7px;height:7px}
+.lrail::-webkit-scrollbar-thumb,.mid::-webkit-scrollbar-thumb,.rrail::-webkit-scrollbar-thumb,
+.queue::-webkit-scrollbar-thumb,.foldbody::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:4px}
+.lrail::-webkit-scrollbar-track,.mid::-webkit-scrollbar-track,.rrail::-webkit-scrollbar-track{background:transparent}

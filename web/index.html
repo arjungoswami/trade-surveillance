@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trade Surveillance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ============== TOP ============== -->
+  <header class="top">
+    <div class="wm">Trade Surveillance</div>
+    <div class="vr"></div>
+    <div class="tmeta">
+      <div><s>RUNTIME</s> <span id="m-runtime">LOCAL</span></div>
+      <div><s>MODEL</s> <span id="m-model">-</span></div>
+      <div><s>DAY</s> <span id="m-day">-</span></div>
+      <div><s>QUEUE</s> <span id="m-queue">-</span></div>
+    </div>
+    <div class="grow"></div>
+    <div class="pill" id="m-telegram">TELEGRAM @harborline_compliance</div>
+    <div class="pill live" id="m-status"><i class="d"></i>AGENT ONLINE</div>
+  </header>
+
+  <div class="body">
+
+    <!-- ============== LEFT ============== -->
+    <aside class="lrail" id="lrail">
+      <div class="cid">
+        <div class="idrow">
+          <span class="n" id="c-id">-</span>
+          <span class="st" id="c-status">-</span>
+          <span class="st" id="c-rule">-</span>
+        </div>
+        <h1 id="c-trader">-<br><em id="c-symbol"></em></h1>
+        <div class="meta" id="c-meta"></div>
+      </div>
+
+      <div class="riskblock" id="riskblock">
+        <div class="lbl" id="r-label">RULE SCORE</div>
+        <div class="big"><b id="r-score">-</b><u id="r-band">-</u></div>
+        <div class="trk"><i id="r-bar"></i></div>
+        <div class="rec"><span id="r-reclabel">DISPOSITION</span><strong id="r-rec">Open</strong></div>
+      </div>
+
+      <div class="sum">
+        <div class="t-eyebrow" id="s-label">Automated findings</div>
+        <p id="s-text">Loading...</p>
+      </div>
+
+      <div id="metrics"></div>
+      <div class="chips" id="chips"></div>
+    </aside>
+
+    <!-- ============== CENTRE ============== -->
+    <section class="mid">
+      <div class="shead">
+        <span class="num">01</span><h2>Event Reconstruction</h2>
+        <span class="aside" id="chart-window">-</span>
+      </div>
+
+      <div class="chart">
+        <div class="chart-h">
+          <div class="t">ORDER FLOW AND PRICE PATH</div>
+          <div class="leg">
+            <span><i class="bu"></i>BUY</span>
+            <span><i class="se"></i>SELL</span>
+            <span><i class="ho"></i>Resting</span>
+            <span><i class="ca"></i>Cancelled</span>
+            <span><i class="pr"></i>Mid price</span>
+          </div>
+        </div>
+        <div class="chart-body">
+          <svg id="chart" viewBox="0 0 1000 486" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="tip" id="tip" hidden></div>
+        </div>
+      </div>
+
+      <details class="fold" id="events-fold">
+        <summary><span class="cv"></span><span class="t">Order events</span>
+          <span class="s" id="events-count">-</span><span class="grow"></span>
+          <span class="s expand">EXPAND</span></summary>
+        <div class="foldbody"><table class="evt" id="events-table"></table></div>
+      </details>
+
+      <div class="shead sub" style="margin-top:18px">
+        <span class="num">02</span><h2>Agent Investigation</h2>
+        <span class="aside">READ-ONLY TOOLS / AUDIT LOGGED</span>
+      </div>
+
+      <div class="pipe">
+        <div class="pipe-h">
+          <span class="t">PROCESSING</span>
+          <span class="st" id="p-state">-</span>
+          <span class="el" id="p-elapsed">-</span>
+          <button class="mini" id="run-agent" title="Run the tool-calling loop against the configured model">RUN AGENT</button>
+        </div>
+        <div class="steps" id="steps"><div class="track"><i id="p-track"></i></div></div>
+        <div class="pipe-f"><span id="p-session">-</span><span id="p-note">EVIDENCE GATHERED BY THE DASHBOARD</span></div>
+      </div>
+    </section>
+
+    <!-- ============== RIGHT ============== -->
+    <aside class="rrail">
+      <div class="rsec">
+        <div class="rh"><span class="t-eyebrow">Alert queue</span><span class="c" id="q-count">-</span></div>
+        <div class="qfilter" id="q-filter">
+          <button class="on" data-f="open">Needs review</button>
+          <button data-f="escalated">Escalated</button>
+          <button data-f="all">All</button>
+        </div>
+        <div id="queue" class="queue"></div>
+      </div>
+
+      <div class="rsec">
+        <div class="rh"><span class="t-eyebrow">Key evidence</span><span class="c" id="e-count">-</span></div>
+        <div id="evidence"></div>
+      </div>
+
+      <div class="rsec">
+        <div class="rh"><span class="t-eyebrow">Communications</span><span class="c" id="chat-count">-</span></div>
+        <div id="chats"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="foot">
+    <div class="l">
+      <div class="t-eyebrow">03 &nbsp;&nbsp;Human review &mdash; required before filing</div>
+      <div class="r1" id="f-rec">-</div>
+      <div class="r2" id="f-why">-</div>
+    </div>
+    <div class="acts">
+      <button class="btn" data-act="close">Close Alert</button>
+      <button class="btn sec" data-act="reinvestigate">Request More Investigation</button>
+      <button class="btn pri" data-act="escalate">Escalate Case <u>&crarr;</u></button>
+    </div>
+  </footer>
+
+  <!-- decision drawer -->
+  <div class="drawer" id="drawer" hidden>
+    <div class="dw">
+      <div class="dw-h"><span id="dw-title">Decision</span><button class="x" id="dw-close">&times;</button></div>
+      <label class="dw-l">SUSPICION <output id="dw-sv">50</output> / 100</label>
+      <input type="range" id="dw-susp" min="0" max="100" value="50">
+      <label class="dw-l" id="dw-tl">RATIONALE &mdash; name the evidence</label>
+      <textarea id="dw-text" rows="4"></textarea>
+      <div class="dw-f">
+        <span class="dw-note" id="dw-note">Written to the audit log and posted to the Telegram channel.</span>
+        <button class="btn pri" id="dw-submit">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

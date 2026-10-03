@@ -38,6 +38,37 @@ python -m surveillance.evaluate --all --roc-csv roc.csv
 vLLM needs tool calling turned on when you start it (`--enable-auto-tool-choice` plus the
 `--tool-call-parser` that matches your model; check the model's vLLM recipe).
 
+## The dashboard
+
+Telegram is where the agent posts and the analyst gives commands; the dashboard is where a human
+sees the whole case before deciding. Standard library only - no extra dependencies.
+
+```bash
+python -m surveillance.web                                   # http://127.0.0.1:8800
+python -m surveillance.web --model qwen3:4b                  # also enables the "Run agent" button
+python -m surveillance.web --base-url http://localhost:8000/v1 --model <served-name>
+```
+
+One screen per case: the reconstructed order flow in the middle, the facts the tools returned on the
+left, collapsible evidence on the right, and the close/escalate decision pinned at the bottom.
+
+- **Event reconstruction** - the mid-price path over the alert window plus every order event, BUY
+  above the axis and SELL below, drawn from `get_market_context` and `get_order_activity`. Hover for
+  the price and the orders at that second.
+- **The checks the rules can't make** - a claimed hedge is reconciled against the options delta in
+  sign *and* size, a personal-account trade is checked for a pre-clearance approval for that symbol
+  on that day, and a "pre-scheduled" algo is checked against when the client order arrived. These are
+  computed from tool output, so the Ortiz/Haddad pair separates on the numbers (0.9x same direction
+  vs 9.8x opposite), not on anything hard-coded.
+- **Agent investigation** - the tool calls with timings. With `--model` set, *Run agent* runs the real
+  tool-calling loop from `surveillance.agent` and the strip fills in live.
+- **Human review** - close or escalate goes through the same tools as the agent, so `dispositions.jsonl`
+  and `audit_log.jsonl` stay the single source of truth; the dashboard adds `reviews.jsonl` recording
+  that a human decided.
+- `#A-0109` in the URL opens that case directly - that is the link a Telegram escalation carries.
+
+It binds to 127.0.0.1. The data is synthetic, but the decision endpoints write to `output/<day>/`.
+
 ## The firm
 
 **Harborline Capital** is a crypto trading firm, not a hedge fund. It has four businesses:
@@ -99,8 +130,10 @@ surveillance/
   detect.py     four rules -> alerts.csv per day
   tools.py      the agent's tools (read + decide), audit logging, OpenAI tool schemas
   cli.py        JSON command-line wrapper (what the OpenClaw skill calls)
+  web.py        local dashboard server (stdlib http.server) over the same tools
   agent.py      minimal tool-calling loop for testing models against any OpenAI-compatible endpoint
   evaluate.py   confusion counts, look-alike accuracy, ROC/AUC vs the rule-score baseline
+web/              the dashboard (index.html, app.js, style.css) - no build step
 skills/trade-surveillance/SKILL.md   OpenClaw skill
 data/<day>/       what the agent can see
 eval_data/<day>/  answer key — keep it out of the agent's reach
